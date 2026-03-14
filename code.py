@@ -1,39 +1,32 @@
-##finding missing numbers
+#code for checking for mistakes and counting the words
+import re
+from spellchecker import SpellChecker
 
-""" NumberArr = [1,4,7,10,15]
-def findMissingNumbers(x):
-    numbers = set(x)
-    numberLength = len(x)
-    output=[]
-    for i in range(1, x[-1]):
-        if i not in numbers:
-            output.append(i)
-    return output
-print(findMissingNumbers(NumberArr))
- """
-# number guessing game - user should guess the number between two numbers and machine should help
+#declaring a word
+typedText = input('Write your text here: ')
+print(typedText)
+lenghtoftheText = len(typedText)
 
-from random import random, randrange, randint
+#dividing by backspace
+#typedText=re.findall(r'\b\w+\b', typedText)
+typedText = typedText.split()
+print(typedText)
 
-firstNum = input('Choose first number: ')
-firstNum = int(firstNum)
-print(f'First number you have chosen is {firstNum}')
-secondNum = int(input('Choose second number: '))
-print(f'Second number you have chosen is {secondNum}')
+#outputting count of words
+print(f"Count of the words in the text you have written is {len(typedText)}")
 
-rightNumberis = randint(firstNum, secondNum)
-# print(f'Right number is {rightNumberis}')
-
-guess = int(input('Your guess is: '))
-
-if guess==rightNumberis:
-    print(f'Correct! It is {guess}')
-else:
-    while guess!= rightNumberis:
-        if guess>rightNumberis:
-            print(f'{guess} is bigger than the number')
-            guess=int(input('Retry guessing: '))
+#checking for grammar
+corrector = SpellChecker()
+for i in range(len(typedText)-1):
+    if typedText[i].isalpha() == True:
+        if typedText[i] in corrector:
+            typedText[i]=typedText[i]
         else:
-            print(f'{guess} is smaller than the number')
-            guess=int(input('Retry guessing: '))
-    print(f'Correct! It was {guess}. Congrats!')
+            typedText[i]=corrector.correction(typedText[i])
+    else:
+        typedText[i]=typedText[i]
+print(type(typedText))
+
+listTextToString = ' '.join([str(element) for element in typedText])
+
+print(f'Your text is "{listTextToString}"')
